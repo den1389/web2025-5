@@ -1,4 +1,3 @@
-// server.js
 const http = require('http');
 const fs = require('fs').promises;
 const path = require('path');
@@ -17,7 +16,7 @@ const { host, port, cache: cacheDir } = program.opts();
 
 const server = http.createServer(async (req, res) => {
   const method = req.method;
-  const urlPath = req.url.slice(1); // Видаляємо перший '/'
+  const urlPath = req.url.slice(1); 
 
   if (!urlPath) {
     res.writeHead(400, { 'Content-Type': 'text/plain' });
@@ -33,7 +32,6 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(200, { 'Content-Type': 'image/jpeg' });
         return res.end(data);
       } catch (err) {
-        // Якщо немає у кеші, спробуємо отримати з http.cat
         try {
           const response = await superagent.get(`https://http.cat/${urlPath}`);
           await fs.writeFile(filePath, response.body);
